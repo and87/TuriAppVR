@@ -1,20 +1,37 @@
 package com.example.turiappvr
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.node.ModifierNodeElement
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat.startActivity
 import com.example.turiappvr.ui.theme.TuriAppVRTheme
 import com.google.ar.core.AugmentedImage
 import com.google.ar.core.Config
 import com.google.ar.core.TrackingState
 import dev.romainguy.kotlin.math.Float3
+import dev.romainguy.kotlin.math.all
 import io.github.sceneview.ar.ARScene
 import io.github.sceneview.ar.node.AnchorNode
 import io.github.sceneview.ar.rememberARCameraStream
@@ -31,103 +48,44 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             TuriAppVRTheme {
-                TuriAppVR()
+                ARModeSelector()
             }
         }
     }
 }
 
 @Composable
-fun TuriAppVR() {
+fun ARModeSelector(){
     val context = LocalContext.current
+    Box(
+        modifier = Modifier.fillMaxSize().background(Color.Black),
+        contentAlignment = Alignment.Center
+    ){
+        Row(
+            modifier = Modifier.padding(all = 5.dp).fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceAround
+        ) {
+            Button(onClick = {
+                context.startActivity(Intent(context, POIARViewerActivity::class.java))
+            }) {
+                Text("POI Viewer")
+            }
 
-    // Oggetti core SceneView
-    val engine = rememberEngine()
-    val modelLoader = rememberModelLoader(engine)
-    val materialLoader = rememberMaterialLoader(engine)
-    val cameraStream = rememberARCameraStream(materialLoader)
-
-    // Carica il modello
-    val model = remember<Model?> {
-        modelLoader.createModel("models/terme.glb")
-    }
-
-    // Nodi della scena AR
-    val childNodes = rememberNodes()
-
-    // Tracciamo quali immagini hanno già un anchor
-    val imageNodes = remember { mutableStateMapOf<Int, AnchorNode>() }
-
-    ARScene(
-        modifier = Modifier.fillMaxSize(),
-        engine = engine,
-        modelLoader = modelLoader,
-        cameraStream = cameraStream,
-        childNodes = childNodes,
-
-        // Configurazione della sessione ARCore
-        sessionConfiguration = { session, config ->
-            // Database di augmented images
-            config.augmentedImageDatabase = createAugmentedImageDatabase(context, session)
-
-            config.updateMode = Config.UpdateMode.LATEST_CAMERA_IMAGE
-            config.focusMode = Config.FocusMode.AUTO
-            config.lightEstimationMode = Config.LightEstimationMode.ENVIRONMENTAL_HDR
-        },
-
-        // Non ci servono piani, possiamo disattivare la loro visualizzazione
-        planeRenderer = false,
-
-        // Callback ad ogni frame
-        onSessionUpdated = { _, updatedFrame ->
-            val updatedImages =
-                updatedFrame.getUpdatedTrackables(AugmentedImage::class.java)
-
-            updatedImages.forEach { image ->
-                when (image.trackingState) {
-                    TrackingState.TRACKING -> {
-                        val existingNode = imageNodes[image.index]
-                        if (existingNode == null) {
-                            model?.let { loadedModel ->
-                                val anchor = image.createAnchor(image.centerPose)
-                                val anchorNode = AnchorNode(
-                                    engine = engine,
-                                    anchor = anchor
-                                ).apply {
-                                    modelLoader.createInstance(loadedModel)?.let {
-                                        addChildNode(
-                                            ModelNode(
-                                                modelInstance = it
-                                            ).apply {
-                                                // Riduci/ingrandisci il modello se serve
-                                                scale = Float3(0.15f)
-                                            }
-                                        )
-                                    }
-                                }
-                                imageNodes[image.index] = anchorNode
-                                childNodes += anchorNode
-                            }
-                        } else {
-                            existingNode.isVisible = true
-                        }
-                    }
-
-                    TrackingState.PAUSED -> {
-                        imageNodes[image.index]?.isVisible = false
-                    }
-
-                    TrackingState.STOPPED -> {
-                        val node = imageNodes.remove(image.index)
-                        if (node != null) {
-                            childNodes -= node
-                            node.destroy()
-                        }
-                    }
-
-                    else -> Unit
-                }
+            Button(onClick = {
+                context.startActivity(Intent(context, TrailARGuideActivity::class.java))
+            }) {
+                Text("Trail Guide")
             }
         }
-    )
+    }
+
+
 }
+
+@Preview
+@Composable
+fun ARModeSelectorPreview(){
+    ARModeSelector()
+}
+
+
