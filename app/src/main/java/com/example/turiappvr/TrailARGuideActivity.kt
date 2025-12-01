@@ -17,6 +17,8 @@ import com.example.turiappvr.ui.theme.TuriAppVRTheme
 import io.github.sceneview.ar.ARScene
 import io.github.sceneview.ar.node.AnchorNode
 import io.github.sceneview.ar.rememberARCameraStream
+import io.github.sceneview.material.setColor
+import io.github.sceneview.math.Rotation
 import io.github.sceneview.model.Model
 import io.github.sceneview.node.ModelNode
 import io.github.sceneview.node.Node
@@ -24,6 +26,7 @@ import io.github.sceneview.rememberEngine
 import io.github.sceneview.rememberMaterialLoader
 import io.github.sceneview.rememberModelLoader
 import io.github.sceneview.rememberNodes
+import io.github.sceneview.math.Position
 
 
 class TrailARGuideActivity : ComponentActivity() {
@@ -59,24 +62,40 @@ fun TrailARGuideApp() {
 
     // Create and position the model node
     LaunchedEffect(model) {
-        model?.let {
-            // Create a parent node to anchor the position
-            val parentNode = Node(engine = engine).apply {
-                position = io.github.sceneview.math.Position(x = 0f, y = 0f, z = -2f)
-            }
 
-            // Create the model node as a child
-            val modelNode = ModelNode(
-                modelInstance = it.instance,
-                scaleToUnits = 1f,
-            )
-
-            // Add model as child of parent node
-            parentNode.addChildNode(modelNode)
-
-            // Add parent node to the scene
-            childNodes += parentNode
+        // First arrow (green, original direction)
+        val parentNode1 = Node(engine = engine).apply {
+            position = Position(x = -0.5f, y = 0f, z = -2f)
         }
+
+        val modelNode1 = ModelNode(
+            modelInstance = modelLoader.createModel("models/arrow.glb")?.instance!!,
+            scaleToUnits = 1f
+        ).apply {
+            // Rotate 180 degrees on Y axis to point opposite direction
+            rotation = Rotation(x = 0f, y = 20f, z = 0f)
+            //materialInstances.forEach { materialInstances -> materialInstances.forEach { materialInstance -> materialInstance.setColor(Color.Green)  } }
+        }
+
+        parentNode1.addChildNode(modelNode1)
+        childNodes += parentNode1
+
+        // Second arrow (rotated 180 degrees, opposite direction)
+        val parentNode2 = Node(engine = engine).apply {
+            position = Position(x = 0.5f, y = 0f, z = -2f)
+        }
+
+        val modelNode2 = ModelNode(
+            modelInstance = modelLoader.createModel("models/arrow.glb")?.instance!!,
+            scaleToUnits = 1f
+        ).apply {
+            // Rotate 180 degrees on Y axis to point opposite direction
+            rotation = Rotation(x = 0f, y = 140f, z = 0f)
+        }
+
+        parentNode2.addChildNode(modelNode2)
+        childNodes += parentNode2
+
     }
 
     ARScene(
