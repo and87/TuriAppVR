@@ -1,4 +1,4 @@
-package com.example.turiappvr
+package com.claranet.turiappvr
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

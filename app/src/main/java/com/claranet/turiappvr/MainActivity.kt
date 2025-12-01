@@ -1,4 +1,4 @@
-package com.example.turiappvr
+package com.claranet.turiappvr
 
 import android.content.Intent
 import android.os.Bundle
@@ -15,32 +15,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateMapOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.node.ModifierNodeElement
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat.startActivity
-import com.example.turiappvr.ui.theme.TuriAppVRTheme
-import com.google.ar.core.AugmentedImage
-import com.google.ar.core.Config
-import com.google.ar.core.TrackingState
-import dev.romainguy.kotlin.math.Float3
-import dev.romainguy.kotlin.math.all
-import io.github.sceneview.ar.ARScene
-import io.github.sceneview.ar.node.AnchorNode
-import io.github.sceneview.ar.rememberARCameraStream
-import io.github.sceneview.model.Model
-import io.github.sceneview.node.ModelNode
-import io.github.sceneview.rememberEngine
-import io.github.sceneview.rememberMaterialLoader
-import io.github.sceneview.rememberModelLoader
-import io.github.sceneview.rememberNodes
+import com.claranet.turiappvr.ui.theme.TuriAppVRTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

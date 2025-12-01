@@ -5,13 +5,13 @@ plugins {
 }
 
 android {
-    namespace = "com.example.turiappvr"
+    namespace = "com.claranet.turiappvr"
     compileSdk {
         version = release(36)
     }
 
     defaultConfig {
-        applicationId = "com.example.turiappvr"
+        applicationId = "com.claranet.turiappvr"
         minSdk = 24
         targetSdk = 36
         versionCode = 1

@@ -1,4 +1,4 @@
-package com.example.turiappvr
+package com.claranet.turiappvr
 
 import org.junit.Test
 

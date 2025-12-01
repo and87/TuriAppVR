@@ -1,8 +1,6 @@
-package com.example.turiappvr
+package com.claranet.turiappvr
 
-import android.R
 import android.os.Bundle
-import android.provider.CalendarContract
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -11,13 +9,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import com.example.turiappvr.ui.theme.TuriAppVRTheme
+import com.claranet.turiappvr.ui.theme.TuriAppVRTheme
 import io.github.sceneview.ar.ARScene
-import io.github.sceneview.ar.node.AnchorNode
 import io.github.sceneview.ar.rememberARCameraStream
-import io.github.sceneview.material.setColor
 import io.github.sceneview.math.Rotation
 import io.github.sceneview.model.Model
 import io.github.sceneview.node.ModelNode
