@@ -1,16 +1,14 @@
-package com.example.turiappvr
+package com.claranet.turiappvr
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import com.example.turiappvr.ui.theme.TuriAppVRTheme
 import com.google.ar.core.AugmentedImage
 import com.google.ar.core.Config
 import com.google.ar.core.TrackingState
@@ -24,16 +22,15 @@ import io.github.sceneview.rememberEngine
 import io.github.sceneview.rememberMaterialLoader
 import io.github.sceneview.rememberModelLoader
 import io.github.sceneview.rememberNodes
+import kotlin.collections.set
 
-class MainActivity : ComponentActivity() {
+class POIARViewerActivity: ComponentActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
-            TuriAppVRTheme {
-                TuriAppVR()
-            }
+            TuriAppVR()
         }
+
     }
 }
 

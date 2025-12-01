@@ -1,4 +1,4 @@
-package com.example.turiappvr
+package com.claranet.turiappvr
 
 import android.content.Context
 import android.graphics.BitmapFactory

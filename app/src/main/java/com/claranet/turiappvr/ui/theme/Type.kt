@@ -1,4 +1,4 @@
-package com.example.turiappvr.ui.theme
+package com.claranet.turiappvr.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
